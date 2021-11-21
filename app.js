@@ -107,6 +107,23 @@ app.get("/secrets", function(req,res){
     else {
         res.redirect("/login");
     }*/
+});app.get("/psecrets", function(req,res){
+    User.find({"secret":{$ne:null}}, function(err,foundUsers){
+        if(err){
+            console.log(err);
+        }
+        else{
+            if(foundUsers){
+                res.render("psecrets", {usersWithSecrets:foundUsers})
+            }
+        }
+    });
+    /*if(req.isAuthenticated()){
+        res.render("secrets");
+    }
+    else {
+        res.redirect("/login");
+    }*/
 });
 app.post("/register", function(req,res){
     User.register({username:req.body.username}, req.body.password, function(err,user){
