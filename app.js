@@ -91,22 +91,21 @@ app.get("/register",function(req,res){
     res.render("register");
 });
 app.get("/secrets", function(req,res){
-    User.find({"secret":{$ne:null}}, function(err,foundUsers){
-        if(err){
-            console.log(err);
-        }
-        else{
-            if(foundUsers){
-                res.render("secrets", {usersWithSecrets:foundUsers})
+    if(req.isAuthenticated()){
+        User.find({"secret":{$ne:null}}, function(err,foundUsers){
+            if(err){
+                console.log(err);
             }
-        }
-    });
-    /*if(req.isAuthenticated()){
-        res.render("secrets");
+            else{
+                if(foundUsers){
+                    res.render("secrets", {usersWithSecrets:foundUsers})
+                }
+            }
+        });
     }
     else {
         res.redirect("/login");
-    }*/
+    }
 });app.get("/psecrets", function(req,res){
     User.find({"secret":{$ne:null}}, function(err,foundUsers){
         if(err){
